@@ -1,22 +1,15 @@
-.global reset_handler
-.global _main
-
 .global vtable
 .global reset_handler
 
-.type vtable, %object
 
 vtable:
 	.word _estack
 	.word reset_handler
-.size vtable, .-vtable
-
 
 .type reset_handler, %function
 reset_handler:	ldr r0, =_estack
 		mov sp, r0
-		b _main
-		
+		b _main		
 		
 _main:	ldr r0, =0x40021018 //rcc_ABP2ENR register
 	ldr r1, =16
@@ -33,10 +26,30 @@ _main:	ldr r0, =0x40021018 //rcc_ABP2ENR register
 	ldr r1, =(3 << 21)
 	str r1, [r0]
 	
+loop:	//turning LED off
 	//setting GPIOC_BSSR
+	ldr r0, =0x40011010
+	ldr r1, =(1 << 13)
+	str r1, [r0]
+	ldr r2,=0
+	ldr r1,=1
+	ldr r3,=1000000
+redo:	add r2,r2,r1
+	cmp r2, r3
+	bne redo
+
+	//turning LED on
+	//resetting GPIOC_BSSR
 	ldr r0, =0x40011010
 	ldr r1, =(1 << 29)
 	str r1, [r0]
+	ldr r2,=0
+	ldr r1,=1
+	ldr r3,=1000000
+redo1:	add r2,r2,r1
+	cmp r2, r3
+	bne redo1
 	
-here:	b here
-	
+	b loop
+
+.type delay, %function
