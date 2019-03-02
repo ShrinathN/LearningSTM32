@@ -1,5 +1,6 @@
 .global vtable
 .global reset_handler
+.global _main
 
 
 vtable:
@@ -31,25 +32,25 @@ loop:	//turning LED off
 	ldr r0, =0x40011010
 	ldr r1, =(1 << 13)
 	str r1, [r0]
-	ldr r2,=0
-	ldr r1,=1
-	ldr r3,=1000000
-redo:	add r2,r2,r1
-	cmp r2, r3
-	bne redo
+	mov r5, pc
+	b delay
 
 	//turning LED on
 	//resetting GPIOC_BSSR
 	ldr r0, =0x40011010
 	ldr r1, =(1 << 29)
 	str r1, [r0]
-	ldr r2,=0
+	mov r5, pc
+	b delay
+	
+	b loop
+
+.type delay, %function
+
+delay:	ldr r2,=0
 	ldr r1,=1
 	ldr r3,=1000000
 redo1:	add r2,r2,r1
 	cmp r2, r3
 	bne redo1
-	
-	b loop
-
-.type delay, %function
+	mov pc,r5

@@ -1,4 +1,3 @@
-
 ENTRY(reset_handler)
 
 _estack = 0x20005000;
@@ -7,8 +6,8 @@ _Min_Leftover_RAM = 0x400;
 
 MEMORY
 {
-    FLASH ( rx )    : ORIGIN = 0x08000000, LENGTH = 128K
-    RAM ( rxw )     : ORIGIN = 0x20000000, LENGTH = 20K
+	FLASH ( rx ) : ORIGIN = 0x08000000, LENGTH = 128K
+	RAM ( rwx ) : ORIGIN = 0x20000000, LENGTH = 20K
 }
 
 SECTIONS
@@ -16,7 +15,7 @@ SECTIONS
 	.vector_table :
 	{
 		. = ALIGN(4);
-		KEEP (*(.vector_table))
+		KEEP(*(.vector_table))
 		. = ALIGN(4);
 	} >FLASH
 	
@@ -26,7 +25,7 @@ SECTIONS
 		*(.text)
 		*(.text*)
 		. = ALIGN(4);
-	} > FLASH
+	} >FLASH
 	
 	.rodata :
 	{
@@ -34,7 +33,7 @@ SECTIONS
 		*(.rodata)
 		*(.rodata*)
 		. = ALIGN(4);
-	} > FLASH
+	} >FLASH
 	
 	_sidata = .;
 	.data : AT(_sidata)
@@ -45,9 +44,9 @@ SECTIONS
 		*(.data*)
 		_edata = .;
 		. = ALIGN(4);
-	} > RAM
+	} >RAM
 	
-	.bss :
+	.bss
 	{
 		. = ALIGN(4);
 		_sbss = .;
@@ -56,15 +55,15 @@ SECTIONS
 		*(COMMON)
 		. = ALIGN(4);
 		_ebss = .;
-		
-	} > RAM
+	} >RAM
 	
-	.dynamic_allocations :
+	.dyanmic_allocations :
 	{
 		. = ALIGN(4);
 		_ssystem_ram = .;
 		. = . + _Min_Leftover_RAM;
 		. = ALIGN(4);
 		_esystem_ram = .;
-	} > RAM
+		
+	} >RAM
 }
