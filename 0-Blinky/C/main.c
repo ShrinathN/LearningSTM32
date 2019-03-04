@@ -7,17 +7,16 @@
 
 void delay(unsigned int da)
 {
-	while(da--)
-		asm("nop");
+	while(da--);
 }
 
 void main()
 {
 	RCC_APB2ENR = 1 << 4;
 	GPIOC_CRH |= 0b11 << 21;
-	GPIOC_CRH &= ~(0b00) < 23;
+	//GPIOC_CRH &= ~(0b00) < 23;
 	while(1)
-	{
+	{	
 		GPIOC_BSRR |= (1 << 29);
 		delay(1000000);
 		GPIOC_BSRR |= (1 << 13);

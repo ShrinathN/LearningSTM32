@@ -1,6 +1,4 @@
 .global vector_table
-.global Reset_routine
-
 .type vector_table, %object
 vector_table:
 	//reserved
