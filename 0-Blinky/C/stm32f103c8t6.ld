@@ -1,4 +1,4 @@
-ENTRY(reset_handler)
+ENTRY(Reset_routine)
 
 _estack = 0x20005000;
 
@@ -36,6 +36,7 @@ SECTIONS
 	} >FLASH
 	
 	_sidata = .;
+	
 	.data : AT(_sidata)
 	{
 		. = ALIGN(4);
@@ -46,7 +47,7 @@ SECTIONS
 		. = ALIGN(4);
 	} >RAM
 	
-	.bss
+	.bss :
 	{
 		. = ALIGN(4);
 		_sbss = .;
