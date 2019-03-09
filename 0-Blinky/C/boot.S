@@ -6,10 +6,6 @@ Reset_routine:	ldr r0, =_estack
 		mov sp, r0
 		b _main	
 
-.thumb_set RCC_APB2ENR, 0x40021018
-.thumb_set GPIOC_CRH, 0x40011004
-.thumb_set GPIOC_BSRR, 0x40011010
-
 _main:		
 copying_data:	ldr r0, =0 //this is a counter
 		ldr r1, =_sdata //starting of .data

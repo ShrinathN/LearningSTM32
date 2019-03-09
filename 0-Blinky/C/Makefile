@@ -4,7 +4,7 @@ LD = arm-none-eabi-ld
 OBJCOPY = arm-none-eabi-objcopy
 NM = arm-none-eabi-nm
 
-CFLAGS = -c -mthumb -mcpu=cortex-m3 -O0
+CFLAGS = -c -mthumb -mcpu=cortex-m3 -O6
 ASFLAGS = -mthumb -mcpu=cortex-m3
 LDFLAGS = -Tstm32f103c8t6.ld
 

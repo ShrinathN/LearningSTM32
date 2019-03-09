@@ -18,8 +18,8 @@ void main()
 	while(1)
 	{	
 		GPIOC_BSRR |= (1 << 29);
-		delay(1000000);
+		delay(8000000);
 		GPIOC_BSRR |= (1 << 13);
-		delay(1000000);
+		delay(8000000);
 	}
 }
