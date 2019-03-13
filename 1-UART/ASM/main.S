@@ -38,9 +38,18 @@ main:	ldr r0, =RCC_APB2ENR
 	ldr r1, =((52 << 4) | 1)
 	str r1, [r0]
 	
-loop:	ldr r0, =USART1_DR 
+	//loading r0 with address of USART1_DR
+	ldr r2, =USART1_SR
+	ldr r4, =(1 << 7)
+loop:	ldr r0, =USART1_DR
 	ldr r1, =96
-	
-lillop:	add r1, r1, #1
+loop2:	add r1, r1, #1
 	str r1, [r0]
+wait:	ldr r3, [r2, #0]
+	and r3, r4
+	cmp r3, #128
+	bne wait
+	cmp r1, #123
+	bcc loop2
+	b loop
 	
