@@ -65,6 +65,5 @@ SECTIONS
 		. = . + _Min_Leftover_RAM;
 		. = ALIGN(4);
 		_esystem_ram = .;
-		
 	} >RAM
 }

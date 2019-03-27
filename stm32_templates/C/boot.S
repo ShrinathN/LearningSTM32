@@ -6,9 +6,6 @@
 .type .vector_table, %object
 .global reset_handler
 .type reset_handler, %function
-
-.vector_table:	.word _estack //first word is end of stack
-		.word reset_handler //location to reset_handler routine
 		
 reset_handler:	ldr r0, =_estack
 		mov sp, r0

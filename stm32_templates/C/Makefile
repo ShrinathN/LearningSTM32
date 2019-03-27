@@ -15,8 +15,10 @@ all: main.hex
 main.hex: main.elf
 	$(OBJCOPY) -O ihex $^ main.hex
 	
-main.elf: boot.o main.o
+main.elf: vector_table.o boot.o main.o
 	$(LD) $(LDFLAGS) $^ -o main.elf
+
+vector_table.o: vector_table.S
 
 boot.o: boot.S
 
