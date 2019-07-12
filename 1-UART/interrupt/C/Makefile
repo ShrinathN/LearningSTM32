@@ -5,7 +5,7 @@ OBJCOPY=arm-none-eabi-objcopy
 NM=arm-none-eabi-nm
 SIZE=arm-none-eabi-size
 
-CFLAGS=-mthumb -mcpu=cortex-m3
+CFLAGS=-mthumb -mcpu=cortex-m3 -O0
 LDFLAGS=-Tstm32f103c8t6.ld
 
 PORT=/dev/ttyUSB0
