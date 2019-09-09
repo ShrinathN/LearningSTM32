@@ -57,7 +57,7 @@ main:
 
 	//I2C_CCR register, setting CCR as 500
 	ldr r0, =(0x40005400 + 0x1c)
-	ldr r1, =(1000)
+	ldr r1, =(500)
 	strh r1, [r0, #0]
 
 	//I2C_TRISE, setting max rise time as 9
@@ -90,13 +90,17 @@ startcon:	ldrh r1, [r0, #0]
 
 			//I2C_SR1 register, waiting while the address is sent
 			ldr r0, =(0x40005400 + 0x14)
-			ldr r2, =(1 << 1)
-wait_addr:	ldrh r1, [r0, #0]
+			ldr r2, =(1 << 1 | 1 << 7)
+wait_addr:	ldrh r1, [r0, #0] //sr1
+			ldrh r3, [r0, #4] //sr2
 			and r1, r2
 			cmp r1, r2
 			bne wait_addr
 
-d:			//sending first data byte 0x0
+			ldr r5, =0
+			ldr r6, =0
+			ldr r7, [r0, #0]
+
 bigloop:	ldr r0, =(0x40005400 + 0x10)
 			ldr r1, =(0x0)
 			strh r1, [r0]
@@ -105,14 +109,21 @@ bigloop:	ldr r0, =(0x40005400 + 0x10)
 			ldr r1, =(1 << 29)
 			str r1, [r0]
 
+			ldr r0, =(0x40005400 + 0x14)
+			ldr r3, [r0, #0]
+
+			//cmp r5, r6
+			//beq skiper
+
 			//waiting for byte to be sent
 			ldr r0, =(0x40005400 + 0x14)
-			ldr r2, =(1 << 2)
+			ldr r2, =(1 << 7)
 rep0:		ldr r1, [r0, #0]
 			and r1, r2
 			cmp r1, r2
 			bne rep0
 
+ghetto:
 			//delay
 			ldr r0, =4000000
 			ldr r1, =0
@@ -131,7 +142,7 @@ wait0:		add r1,r1,#1
 
 			//waiting for byte to be sent
 			ldr r0, =(0x40005400 + 0x14)
-			ldr r2, =(1 << 2)
+			ldr r2, =(1 << 7)
 rep1:		ldr r1, [r0, #0]
 			and r1, r2
 			cmp r1, r2
@@ -145,3 +156,6 @@ wait1:		add r1,r1,#1
 			bne wait1
 
 			b bigloop
+
+skiper:		add r5,r5,#100
+			b ghetto
