@@ -10,8 +10,11 @@ LDFLAGS = -Tstm32f103c8t6.ld
 
 all: vector_table.o boot.o main.o
 	$(LD) $(LDFLAGS) $^ -o main.elf
-	$(OBJCOPY) -O ihex main.elf main.hex
-	$(NM) -n main.elf
+	$(OBJCOPY) -O binary main.elf main.bin
+
+debug: vector_table.o boot.o main.o
+	$(CC) $(CFLAGS) -g $^ -o main.elf
+	$(OBJCOPY) -O binary main.elf main.bin
 
 main.o: main.c
 
@@ -20,4 +23,4 @@ boot.o: boot.S
 vector_table.o: vector_table.S
 
 clean:
-	rm *.o *.hex *.elf
+	rm *.o *.hex *.elf *.bin
